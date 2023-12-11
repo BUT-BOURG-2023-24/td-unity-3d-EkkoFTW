@@ -35,7 +35,6 @@ public class jumpBehavior : MonoBehaviour
 
     private void Jump()
     {
-        Debug.Log("dzadazdza");
         body.AddForce(Vector3.up*jumpPower);
     }
 }

@@ -12,6 +12,7 @@ public class SpawnCubeOnMouseClick : MonoBehaviour
     public InputActionReference clickAction = null;
     public float spawnHeightOffset = 0.0f;
     public Joystick joystick = null;
+
     // Start is called before the first frame update
     void Start()
     {

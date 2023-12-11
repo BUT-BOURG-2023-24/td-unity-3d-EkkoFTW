@@ -19,7 +19,7 @@ public class SpawnEntity : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeLeft = targetTime = spawnPerSec*60;
+        timeLeft = targetTime = 1/(spawnPerSec*60);
     }
 
     // Update is called once per frame
@@ -35,12 +35,14 @@ public class SpawnEntity : MonoBehaviour
 
     void spawnEntity()
     {
+
         Vector3 center = localization.transform.position;
         Vector3 size = localization.GetComponent<Renderer>().bounds.size;
 
         Vector2 position = new Vector2(UnityEngine.Random.Range(center.x - size.x / 2, center.x + size.x / 2),
             UnityEngine.Random.Range(center.z - size.z / 2, center.z + size.z / 2));
 
-       Instantiate(entity, new Vector3(position.x, entity.GetComponent<Renderer>().bounds.size.y/2, position.y), Quaternion.identity);
+        GameObject spawned = Instantiate(entity, new Vector3(position.x, entity.GetComponent<Renderer>().bounds.size.y/2, position.y), Quaternion.identity);
+        spawned.GetComponent<EnemyTracking>().target = target;
     }
 }
