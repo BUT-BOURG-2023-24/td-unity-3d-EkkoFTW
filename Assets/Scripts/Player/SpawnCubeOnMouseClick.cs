@@ -11,6 +11,7 @@ public class SpawnCubeOnMouseClick : MonoBehaviour
     public GameObject toSpawnObject = null;
     public InputActionReference clickAction = null;
     public float spawnHeightOffset = 0.0f;
+    public Joystick joystick = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +41,22 @@ public class SpawnCubeOnMouseClick : MonoBehaviour
 
     public void OnFingerDown(EnhancedTouch.Finger finger)
     {
-        spawnEntity(finger.screenPosition);
+        RectTransform joystickRect = (joystick.transform as RectTransform);
+
+        bool xIn = joystickRect.offsetMin.x <= finger.screenPosition.x
+         && finger.screenPosition.x <= joystickRect.offsetMax.x;
+
+        bool yIn = joystickRect.offsetMin.y <= finger.screenPosition.y
+         && finger.screenPosition.y <= joystickRect.offsetMax.y;
+
+        bool isOnJoystick  = xIn && yIn;
+        if (!isOnJoystick)  
+            spawnEntity(finger.screenPosition);
     }
 
     private void OnMouseClicked(InputAction.CallbackContext context)
     {
-        spawnEntity(Input.mousePosition);
+        //spawnEntity(Input.mousePosition);
     }
 
     private void spawnEntity(Vector2 screenPosition)
@@ -55,7 +66,6 @@ public class SpawnCubeOnMouseClick : MonoBehaviour
         {
             Vector3 spawnPoint = hitInfo.point;
             spawnPoint.y += spawnHeightOffset;
-            //Vector3 defaultSpawn = spawnPoint;
             Instantiate(toSpawnObject, spawnPoint, Quaternion.identity);
             /*
             for (int i = 0; i < 25; i++)
